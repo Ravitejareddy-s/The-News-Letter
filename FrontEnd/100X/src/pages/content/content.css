@@ -1,0 +1,273 @@
+
+
+body{
+    background-color: black;
+    font-family: "Popins", sans-serif;
+}
+
+.blog-filters{
+    /* background-color: rgb(160, 50, 50); */
+    display: flex;
+    justify-content:center;
+    /* flex-direction:row; */
+    
+    
+
+}
+
+
+
+.blog-filters__item{
+    cursor: pointer;
+    width:200px;
+    height:50px;
+    list-style-type: none;
+    align-items: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+
+}
+
+.blog-filters__item a{
+    text-decoration: none;
+    color: wheat;
+
+
+}
+
+.selected a{
+    color: black;
+    border-radius: 20px;
+    background-color: rgb(66,133,91);
+    width: 100%;
+  }
+
+
+
+.container{
+    /* width: 50%; */
+
+    list-style: none;
+    display: flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    list-style: none;
+    /* padding: 20px; */
+    gap: 48px;
+    /* overflow-x: hidden; */
+
+
+}
+
+
+.boxes {
+    display: flex;
+    height: 550px;
+    /* flex: 0 0 35%; */
+    flex-basis: 30%;
+    gap: 2px; 
+    flex-direction: column;
+    background: rgba(134, 129, 129, 0.2);
+    backdrop-filter: blur(40px); /* Creates the frosted glass effect */
+    box-shadow: 5px 5px 5px rgba(116, 116, 121, 0.1); /* Adds a subtle shadow */
+
+    /* padding: 5px; */
+
+    border-color: rgb(65, 63, 63);
+    border-width: 2px; /* Add border width */
+    border-style: solid;
+    flex-wrap: wrap;
+    border-radius: 5px;
+    align-items: center;
+    justify-content:right;
+    text-align: center;
+
+
+}
+
+.header{
+    padding: 5px;
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
+    
+
+}
+.header div{
+    height: 25px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-grow: 1;
+
+
+}
+
+
+
+.header a{
+    font-size: small;
+    color: rgb(117, 137, 155);
+}
+
+.details{
+    position: absolute;
+    top: 280px;
+    padding: 5px;
+    width: 97%;
+    display: flex;
+    justify-content: space-between;
+    
+
+}
+
+.details a{
+    color: rgb(131, 126, 134);
+    font-size: small;
+}
+
+
+.title{
+    position: absolute;
+    top:300px;
+    /* bottom: 25px; */
+    max-height: 230px;
+    overflow: hidden;
+    padding:5px;
+    text-align: left;
+    color: rgb(194, 194, 185);
+    font-size:14px;
+}
+
+.title a{
+    font-weight: bold;
+    color: white;
+    font-size: 18px;
+
+}
+
+.main_img {
+    max-width: 100%;
+    max-height: 240px;
+    border-radius: inherit;
+    /* padding: 10px; */
+
+
+}
+
+.icons_container{
+    position: absolute;
+    width: 70%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 30%; 
+    bottom: 0; /* Stick it to the bottom */
+    padding: 5px;
+    /* left: 0;
+    right: 0; */
+    height: 20px; /* Fixed height for the description */
+    /* background-color: rgb(199, 199, 47); */
+
+
+}
+
+.header img{
+    max-height: 100%;
+    max-width: 50%;
+    height: 20px;
+    background-color: rgb(255, 255, 255);
+}
+
+form{
+    text-align: end;
+    padding-right: 10px;
+    border-width: 0px;
+
+
+}
+
+input{
+    background-color: transparent;
+    border-width: 0px;
+    font-size: 15px;
+}
+
+
+
+/* css for the hamberger menu */
+.navbar {
+    position: relative;
+    height: 60px;
+    background-color: #000; /* Updated background color to black */
+  }
+  
+  .navbar-toggle {
+    /* display: none; */
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 20px;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    z-index: 2;
+  }
+  
+  .navbar-toggle .line {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background-color: #fff; /* Updated line color to white */
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .navbar-toggle .line:nth-child(2) {
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  
+  .navbar-toggle .line:nth-child(3) {
+    bottom: 0;
+  }
+  
+  .navbar-menu {
+    z-index: 1;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: #000; /* Updated background color to black */
+    list-style: none;
+    padding: 10px;
+    margin-top: 0;
+    display: none;
+  }
+  
+  .navbar-menu li {
+    margin-bottom: 10px;
+  }
+  
+  .navbar-menu a {
+    color: #fff; /* Updated text color to white */
+    text-decoration: none;
+  }
+  
+.open .navbar-menu {
+    display: block;
+  }
+  
+.navbar.open .navbar-toggle .line:nth-child(1) {
+  transform: rotate(45deg) translate(6px, 6px);
+}
+
+.navbar.open .navbar-toggle .line:nth-child(2) {
+  opacity: 0;
+}
+
+.navbar.open .navbar-toggle .line:nth-child(3) {
+  transform: rotate(-45deg) translate(6px, -6px);
+}
+  /*css for the hamberger menu ends  */
