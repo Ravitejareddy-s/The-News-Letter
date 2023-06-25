@@ -45,7 +45,6 @@ const Bookmarked = () => {
 
   const [data, n_data] = useState([{ "Blog Title": "test" }])
   const [cat, n_cat] = useState('AI')
-  const [menuOpen, setMenuOpen] = useState(false)
 
 
 
@@ -91,28 +90,6 @@ const Bookmarked = () => {
 
   return (
     <div>
-
-      <div className={`navbar ${menuOpen ? "open" : ""}`}>
-        <div className="navbar-toggle" onClick={() => setMenuOpen(!menuOpen)}>
-          <span className="line"></span>
-          <span className="line"></span>
-          <span className="line"></span>
-        </div>
-        <ul className="navbar-menu">
-          <li><a href="#">Home</a></li>
-          <li><a href="#">About</a></li>
-          <li><a href="/upvoted">Upvoted</a></li>
-          <li><a href="/bookmarked">Bookmarked</a></li>
-        </ul>
-      </div>
-
-
-      <div>
-
-      </div>
-
-
-
       <div className="filters">
         <input
           type="date"

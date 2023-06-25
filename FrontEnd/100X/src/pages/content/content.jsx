@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import './content.css'
 import noimg from './noimg.jpg'
+import Navbar from "../Navbar/Navbar";
 
 
 function timeSince(dateString) {
@@ -45,7 +46,6 @@ const Content = () => {
 
   const [data, n_data] = useState([{ "Blog Title": "test" }])
   const [cat, n_cat] = useState('AI')
-  const [menuOpen, setMenuOpen] = useState(false)
 
 
 
@@ -91,26 +91,6 @@ const Content = () => {
 
   return (
     <div>
-
-      <div className={`navbar ${menuOpen ? "open" : ""}`}>
-        <div className="navbar-toggle" onClick={() => setMenuOpen(!menuOpen)}>
-          <span className="line"></span>
-          <span className="line"></span>
-          <span className="line"></span>
-        </div>
-        <ul className="navbar-menu">
-          <li><a href="#">Home</a></li>
-          <li><a href="#">About</a></li>
-          <li><a href="/upvoted">Upvoted</a></li>
-          <li><a href="/bookmarked">Bookmarked</a></li>
-        </ul>
-      </div>
-
-
-      <div>
-
-      </div>
-
 
 
       <div className="filters">
