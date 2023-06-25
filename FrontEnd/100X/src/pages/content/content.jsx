@@ -74,7 +74,7 @@ const Content = () => {
         'Content-Type': 'application/json'
       }, body: JSON.stringify({
         "date": selectedDate,
-        "Category": cat
+        "category": cat
       })
     });
     const data2 = await response.json();

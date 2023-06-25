@@ -44,7 +44,7 @@ function timeSince(dateString) {
 const Bookmarked = () => {
 
   const [data, n_data] = useState([{ "Blog Title": "test" }])
-  const [cat, n_cat] = useState('AI')
+
 
 
 
@@ -73,7 +73,7 @@ const Bookmarked = () => {
         'Content-Type': 'application/json'
       }, body: JSON.stringify({
         "date": selectedDate,
-        "Category": cat
+        "bookmark": 1
       })
     });
     const data2 = await response.json();
@@ -85,7 +85,7 @@ const Bookmarked = () => {
   useEffect(() => {
 
     get_prob();
-  }, [cat, selectedDate]);
+  }, [selectedDate]);
 
 
   return (
@@ -99,12 +99,7 @@ const Bookmarked = () => {
           onChange={handleDateChange}
         />
 
-        <select value={cat} onChange={(e) => n_cat(e.target.value)}>
-          <option value="AI">AI</option>
-          <option value="Business models">Business models</option>
-          <option value="Digital marketing">Digital marketing</option>
-          <option value="Marketing strategies">Marketing strategies</option>
-        </select>
+
       </div>
 
 

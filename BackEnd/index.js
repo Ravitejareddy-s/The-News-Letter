@@ -6,6 +6,7 @@ const cors=require('cors')
 app.use(cors())
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
 const port = 3000
 const { DynamoDBClient } = require("@aws-sdk/client-dynamodb");
 const { DynamoDBDocumentClient, QueryCommand,UpdateCommand } = require("@aws-sdk/lib-dynamodb");
@@ -42,11 +43,11 @@ const getdata = async (x,y) => {
       FilterExpression: "#category = :categoryValue",
       ExpressionAttributeNames: {
         "#scraped_time": "scraped_time",
-        "#category": "category"
+        "#category": Object.keys(y)[0]
       },
       ExpressionAttributeValues: {
         ":scraped_timeValue": x,
-        ":categoryValue": y
+        ":categoryValue": Object.values(y)[0]
       }
     });
   
@@ -61,13 +62,23 @@ app.get('/', (req, res) => {
   res.send('Health check')
 })
 
+app.post('/dummy', (req, res) => {
+
+  const key=Object.keys(req.body)[1]
+  const value=Object.values(req.body)[1]
+  console.log({key:value});
+  res.send('Health check')
+})
+
+
 app.post('/news', (req, res) => {
     console.log("calling dynamodb")
     const date=req.body.date
-    const Category=req.body.Category
-    console.log(Category)
+    const key=Object.keys(req.body)[1]
+    const value=Object.values(req.body)[1]
+    console.log({[key]:value})
 
-    const temp=getdata(date,Category);
+    const temp=getdata(date,{[key]:value});
     temp.then((result) => res.send(result.Items)).catch((error) => console.error(error));
     // res.send(getdata(date).Items)
     // res.send('Hello World!')
