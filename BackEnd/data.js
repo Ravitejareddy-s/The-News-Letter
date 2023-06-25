@@ -2,6 +2,8 @@ const data=(date,Category)=>{
      
     const data=[
         {
+        "feedback":'l',
+        "bookmark":1,
         "category": Category,
         "link": "https://news.mit.edu/2023/scaling-audio-visual-learning-without-labels-0605",
         "title": "Scaling audio-visual learning without labels",
@@ -13,7 +15,7 @@ const data=(date,Category)=>{
         "scraped_time":date,"date": "2023-06-05"
         },
         {
-        "category": Category,
+         "category": Category,
         "link": "https://news.mit.edu/2023/driven-driverless-alejandra-heredia-0531",
         "title": "Driven to driverless",
         "GPT Title": "","logo_image": "https://www.bing.com/th?id=ODF.h3ehJVgjbfP5zVUBqQpvvQ&pid=news&w=16&h=16&c=14&rs=2&qlt=90",

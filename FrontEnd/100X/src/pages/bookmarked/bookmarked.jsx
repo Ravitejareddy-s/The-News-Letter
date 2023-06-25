@@ -68,7 +68,7 @@ const Bookmarked = () => {
   async function get_prob() {
 
 
-    const response = await fetch('http://localhost:3000/D_news/', {
+    const response = await fetch('http://localhost:3000/news/', {
       method: 'POST', headers: {
         'Content-Type': 'application/json'
       }, body: JSON.stringify({
@@ -90,6 +90,7 @@ const Bookmarked = () => {
 
   return (
     <div>
+      <a >Bookmark Page </a>
       <div className="filters">
         <input
           type="date"
@@ -119,12 +120,35 @@ const Bookmarked = () => {
 
 function Render(x) {
   const icons_size = 20
-  const [isClicked, setIsClicked] = useState([0, 0, 0, 0]);
+  let temp;
+
+  console.log('x.feedback:', x.feedback);
+  console.log('x.feedback:', x.title);
+  const [isClicked, setIsClicked] = useState([0,0,0,1]);
+  useEffect(()=> {
+
+    if (x.feedback === 'l') {
+      setIsClicked([1, 0, 0,1]);
+    } else if (x.feedback === 'd') {
+
+      setIsClicked([0, 1, 0,1]);
+    } else if (x.feedback === "f") {
+
+      setIsClicked([0, 0, 1,1]);
+    } else {
+      setIsClicked([0, 0,0,1]);
+    }
+  },[])
 
 
+  // let temp=[0,0,1]
+  console.log(isClicked)
+
+  // console.log('x.feedback:'+x.feedback)
+  // console.log('isClicked'+isClicked)
   const upvote = () => {
     setIsClicked(prevState => [1 - prevState[0], 0, 0, 0]);
-    fetch('http://localhost:3000/user-action/', {
+    fetch('http://localhost:3000/useraction/', {
       method: 'POST', headers: {
         'Content-Type': 'application/json'
       }, body: JSON.stringify({
@@ -136,7 +160,7 @@ function Render(x) {
   };
   const downvote = () => {
     setIsClicked(prevState => [0, 1 - prevState[1], 0, 0]);
-    fetch('http://localhost:3000/user-action/', {
+    fetch('http://localhost:3000/useraction/', {
       method: 'POST', headers: {
         'Content-Type': 'application/json'
       }, body: JSON.stringify({
@@ -148,7 +172,7 @@ function Render(x) {
   };
   const fav = () => {
     setIsClicked(prevState => [0, 0, 1 - prevState[2], 0]);
-    fetch('http://localhost:3000/user-action/', {
+    fetch('http://localhost:3000/useraction/', {
       method: 'POST', headers: {
         'Content-Type': 'application/json'
       }, body: JSON.stringify({
@@ -160,7 +184,7 @@ function Render(x) {
   };
   const bookmark = () => {
     setIsClicked(prevState => [prevState[0], prevState[1], prevState[2], 1 - prevState[3]]);
-    fetch('http://localhost:3000/user-action/', {
+    fetch('http://localhost:3000/useraction/', {
       method: 'POST', headers: {
         'Content-Type': 'application/json'
       }, body: JSON.stringify({

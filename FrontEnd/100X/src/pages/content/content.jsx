@@ -69,7 +69,7 @@ const Content = () => {
   async function get_prob() {
 
 
-    const response = await fetch('http://localhost:3000/D_news/', {
+    const response = await fetch('http://localhost:3000/news/', {
       method: 'POST', headers: {
         'Content-Type': 'application/json'
       }, body: JSON.stringify({
