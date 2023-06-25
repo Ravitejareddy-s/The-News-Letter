@@ -80,6 +80,7 @@ app.post('/D_news', (req, res) => {
     const Category=req.body.Category
     res.send(data(date,Category))
     console.log(date)
+    console.log(Category)
     // res.send(getdata(date).Items)
     // res.send('Hello World!')
   })

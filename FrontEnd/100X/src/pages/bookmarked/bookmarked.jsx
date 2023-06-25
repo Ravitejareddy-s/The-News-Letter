@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import './content.css'
-import noimg from './noimg.jpg'
+import './bookmarked.css'
+// import noimg from './noimg.jpg'
 
 
 function timeSince(dateString) {
@@ -41,7 +41,7 @@ function timeSince(dateString) {
   return Math.floor(seconds) + " seconds";
 }
 
-const Content = () => {
+const Bookmarked = () => {
 
   const [data, n_data] = useState([{ "Blog Title": "test" }])
   const [cat, n_cat] = useState('AI')
@@ -207,7 +207,7 @@ function Render(x) {
     </div>
 
 
-    <img className="main_img" src={x.img} onError={(e) => e.target.src = noimg} alt="image" />
+    <img className="main_img" src={x.img}  alt="image" />
 
     <div className="details">
       <a>{x.site_name} </a>
@@ -250,6 +250,6 @@ function Render(x) {
 }
 
 
-export default Content
+export default Bookmarked
 
 
