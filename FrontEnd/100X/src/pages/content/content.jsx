@@ -133,6 +133,7 @@ function Render(x) {
       }, body: JSON.stringify({
         "link": x.link,
         "date": x.scraped_time,
+        "title":x.title,
         "upvote": 1 - isClicked[0]
       })
     });
