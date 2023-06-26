@@ -11,8 +11,8 @@
     top: 50%;
     transform: translateY(-50%);
     right: 20px;
-    width: 30px;
-    height: 30px;
+    width: 40px;
+    height: 40px;
     cursor: pointer;
     z-index: 2;
   }
@@ -70,5 +70,13 @@
 
 .navbar.open .navbar-toggle .line:nth-child(3) {
   transform: rotate(-45deg) translate(6px, -6px);
+}
+
+
+.heighlight{
+  font-family: "Popins", sans-serif;
+  /* color: wheat; */
+
+  background: linear-gradient(180deg,rgba(255,255,255,0) 99%, #696175 99%);
 }
   /*css for the hamberger menu ends  */

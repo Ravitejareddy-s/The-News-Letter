@@ -91,7 +91,7 @@ const Content = () => {
 
   return (
     <div>
-
+      <Navbar/>
 
       <div className="filters">
         <input

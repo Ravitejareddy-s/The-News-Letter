@@ -1,13 +1,14 @@
 import React,{useState} from 'react'
 import './Navbar.css'
 
-const Navbar = () => {
+const Navbar = ({title}) => {
     const [menuOpen, setMenuOpen] = useState(false)
 
 
     
     return(
         <div className={`navbar ${menuOpen ? "open" : ""}`}>
+          <h1 className='heighlight'>{title}</h1>
         <div className="navbar-toggle" onClick={() => setMenuOpen(!menuOpen)}>
           <span className="line"></span>
           <span className="line"></span>

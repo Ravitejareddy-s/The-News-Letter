@@ -9,7 +9,6 @@ function App() {
 
   return (
     <BrowserRouter>
-    <Navbar/>
       <Routes>
         <Route path="/content" element={<Content />} />
         <Route path="/bookmarked" element={<Bookmarked />} />
