@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import './bookmarked.css'
+import './Upvoted.css'
 import Navbar from "../Navbar/Navbar";
 // import noimg from './noimg.jpg'
 
@@ -42,7 +42,7 @@ function timeSince(dateString) {
   return Math.floor(seconds) + " seconds";
 }
 
-const Bookmarked = () => {
+const Upvoted = () => {
 
   const [data, n_data] = useState([{ "Blog Title": "test" }])
 
@@ -74,7 +74,7 @@ const Bookmarked = () => {
         'Content-Type': 'application/json'
       }, body: JSON.stringify({
         "date": selectedDate,
-        "bookmark": 1
+        "feedback": 'l'
       })
     });
     const data2 = await response.json();
@@ -91,7 +91,7 @@ const Bookmarked = () => {
 
   return (
     <div>
-      <Navbar title="Bookmark Page"/>
+      <Navbar title="Upvoted Posts"/>
       <div className="filters">
         <input
           type="date"
@@ -104,7 +104,7 @@ const Bookmarked = () => {
       </div>
 
 
-      <ul className='container'>
+      <ul className='upvote_container'>
         {data.map((x) => <Render {...x} />)}
       </ul>
 
@@ -191,15 +191,16 @@ function Render(x) {
     });
   };
 
-  return <li className='boxes'>
+  return <li className='upvote_boxes'>
     <div className="header">
       <div>
 
         <img src={x.logo_image} />
         <a>{x.scraped_from} </a>
       </div>
+      <button>publish</button>
 
-      {/* <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g id="feEdit0" fill="none" fill-rule="evenodd" stroke="none" stroke-width="1"><g id="feEdit1" fill="currentColor"><path id="feEdit2" d="M5 20h14a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Zm-1-5L14 5l3 3L7 18H4v-3ZM15 4l2-2l3 3l-2.001 2.001L15 4Z" /></g></g></svg> */}
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g id="feEdit0" fill="none" fill-rule="evenodd" stroke="none" stroke-width="1"><g id="feEdit1" fill="currentColor"><path id="feEdit2" d="M5 20h14a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Zm-1-5L14 5l3 3L7 18H4v-3ZM15 4l2-2l3 3l-2.001 2.001L15 4Z" /></g></g></svg>
 
     </div>
 
@@ -214,12 +215,21 @@ function Render(x) {
 
     </div>
 
-    <div className="title">
+
+    <div className="upvote_title">
+
+      <a href={x.link} target="_blank">{x.gpt_title}</a>
+      <div title={x.desc}>{x.gpt_summary}</div>
+
+    </div>
+
+    <div className="actual_title">
 
       <a href={x.link} target="_blank">{x.title}</a>
       <div title={x.desc}>{x.desc}</div>
 
     </div>
+
     <div className="icons_container">
 
       <div onClick={upvote}>
@@ -247,6 +257,6 @@ function Render(x) {
 }
 
 
-export default Bookmarked
+export default Upvoted
 
 

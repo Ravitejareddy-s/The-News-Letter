@@ -1,0 +1,221 @@
+
+
+body{
+    background-color: black;
+    font-family: "Popins", sans-serif;
+}
+
+
+
+
+
+.upvote_container{
+    list-style: none;
+    display: flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    list-style: none;
+    /* padding: 20px; */
+    gap: 48px;
+    /* overflow-x: hidden; */
+
+
+}
+
+
+.upvote_boxes {
+    display: flex;
+    height: 850px;
+    /* flex: 0 0 35%; */
+    flex-basis: 30%;
+    gap: 2px; 
+    flex-direction: column;
+    background: rgba(134, 129, 129, 0.2);
+    backdrop-filter: blur(40px); /* Creates the frosted glass effect */
+    box-shadow: 5px 5px 5px rgba(116, 116, 121, 0.1); /* Adds a subtle shadow */
+
+    /* padding: 5px; */
+
+    border-color: rgb(65, 63, 63);
+    border-width: 2px; /* Add border width */
+    border-style: solid;
+    flex-wrap: wrap;
+    border-radius: 5px;
+    align-items: center;
+    justify-content:right;
+    text-align: center;
+
+
+}
+
+
+
+.header{
+    padding: 5px;
+    width: 90%;
+    display: flex;
+    justify-content: space-between;
+    
+
+}
+.header div{
+    height: 25px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    flex-grow: 1;
+
+
+}
+
+
+
+.header a{
+    font-size: small;
+    color: rgb(117, 137, 155);
+}
+
+.details{
+    position: absolute;
+    top: 280px;
+    padding: 5px;
+    width: 97%;
+    display: flex;
+    justify-content: space-between;
+    
+
+}
+
+.details a{
+    color: rgb(131, 126, 134);
+    font-size: small;
+}
+
+
+.upvote_title{
+    background-color: rgb(25, 55, 24);
+    position: absolute;
+    top:305px;
+    /* bottom: 25px; */
+    max-height: 300px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    padding:5px;
+    text-align: left;
+    color: rgb(194, 194, 185);
+    font-size:14px;
+}
+
+.upvote_title::-webkit-scrollbar {
+    width: 0.5em; /* adjust as needed */
+    background-color: transparent;
+  }
+  
+  .upvote_title::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.3); /* adjust as needed */
+    border-radius: 4px;
+  }
+  
+  .upvote_title::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(0, 0, 0, 0.5); /* adjust as needed */
+  }
+
+.upvote_title a{
+    font-weight: bold;
+    color: rgb(255, 139, 255);
+    font-size: 18px;
+
+}
+
+.actual_title{
+    /* background-color: #000; */
+    position: absolute;
+    top:630px;
+    /* bottom: 25px; */
+    max-height: 230px;
+    overflow: hidden;
+    padding:5px;
+    text-align: left;
+    color: rgb(194, 194, 185);
+    font-size:14px;
+}
+
+.actual_title a{
+    font-weight: bold;
+    color: white;
+    font-size: 18px;
+
+}
+
+
+.main_img {
+    max-width: 100%;
+    max-height: 240px;
+    border-radius: inherit;
+    /* padding: 10px; */
+
+
+}
+
+.icons_container{
+    position: absolute;
+    width: 70%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 30%; 
+    bottom: 0; /* Stick it to the bottom */
+    padding: 5px;
+    /* left: 0;
+    right: 0; */
+    height: 20px; /* Fixed height for the description */
+    /* background-color: rgb(199, 199, 47); */
+
+
+}
+
+.header img{
+    max-height: 100%;
+    max-width: 50%;
+    height: 20px;
+    background-color: rgb(255, 255, 255);
+}
+
+.header button {
+    padding-right: 20px;
+    height: 20px;
+    background-color: rgb(55, 11, 250);
+    color: rgb(255, 255, 255);
+    /* overflow: hidden; */
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+form{
+    text-align: end;
+    padding-right: 10px;
+    border-width: 0px;
+
+
+}
+
+
+.filters{
+  display: flex;
+  gap:60px;
+  justify-content: left;
+  padding-left: 60px;
+}
+
+.filters *{
+    background-color: black;
+    border-width: 0px;
+    font-size: 15px;
+    border-color: rgb(49, 48, 46);
+    /* box-shadow: 5px 5px 5px rgba(151, 137, 137, 0.1); */
+    color: rgb(205, 205, 212);
+}

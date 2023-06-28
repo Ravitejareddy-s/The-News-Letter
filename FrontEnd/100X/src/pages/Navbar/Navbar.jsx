@@ -1,5 +1,6 @@
 import React,{useState} from 'react'
 import './Navbar.css'
+// import logo from './100X_icon_orange_orange tm.jpg'
 
 const Navbar = ({title}) => {
     const [menuOpen, setMenuOpen] = useState(false)

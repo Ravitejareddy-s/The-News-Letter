@@ -121,6 +121,8 @@ app.post('/dummy', (req, res) => {
 
   const key=Object.keys(req.body)[1]
   const value=Object.values(req.body)[1]
+  
+  console.log(date);
   console.log({key:value});
   res.send('Health check')
 })
