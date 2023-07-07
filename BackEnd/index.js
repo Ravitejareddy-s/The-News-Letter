@@ -16,6 +16,9 @@ const data=require('./data.js')
 const { Configuration, OpenAIApi } = require("openai");
 const axios = require('axios');
 const cheerio = require('cheerio');
+const TableName=process.env.table_name
+const mail = require("./mail.js");
+const mails=['ravitejareddy.seemala@gmail.com']
 
 
 // function that scrapes the data and summerrises
@@ -72,7 +75,7 @@ const resp = async (openai, title, url) => {
 const updateData = async (date, link,col,val) => {
 
   const updateCommand = new UpdateCommand({
-    TableName: "temp",
+    TableName: TableName,
     Key: {
       "scraped_time": date,
       "link": link
@@ -93,7 +96,7 @@ const updateData = async (date, link,col,val) => {
 
 const getdata = async (x,y) => {
     const command = new QueryCommand({
-      TableName: "temp",
+      TableName: TableName,
       KeyConditionExpression: "#scraped_time = :scraped_timeValue",
       FilterExpression: "#category = :categoryValue",
       ExpressionAttributeNames: {
@@ -114,6 +117,18 @@ const getdata = async (x,y) => {
 
 
 app.get('/', (req, res) => {
+  const data=[{
+    'title':'title1',
+    'content':'this will be the disc of the post',
+    'link':'https://blog.hubspot.com/marketing/what-is-a-blog',
+    'img':'https://blog.hubspot.com/hs-fs/hubfs/what-is-a-blog-3.jpg?width=893&height=600&name=what-is-a-blog-3.jpg'
+  },{
+    'title':'title1',
+    'content':'this will be the disc of the post',
+    'link':'https://blog.hubspot.com/marketing/what-is-a-blog',
+    'img':'https://blog.hubspot.com/hs-fs/hubfs/linkedin-summary-examples-4.jpg?width=893&height=600&name=linkedin-summary-examples-4.jpg'
+  }]
+  mail(mails,data)
   res.send('Health check')
 })
 
@@ -187,6 +202,14 @@ app.post('/user-action', (req, res) => {
     console.log(link)
     updateData(date,link,'feedback','f')
     console.log('feedback:'+'F')
+
+    (async () => {
+      const x = await resp(openai, title, link);
+      console.log("--------------------")
+      const obj = JSON.parse(x);
+      updateData(date,link,'gpt_title',obj.modified_title);
+      updateData(date,link,'gpt_summary',obj.summarized_content);
+    })();
 
   }
   if(fav===0||upvote===0||downvote===0){

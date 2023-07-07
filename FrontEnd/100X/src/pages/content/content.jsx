@@ -111,7 +111,7 @@ const Content = () => {
 
 
       <ul className='container'>
-        {data.map((x) => <Render {...x} />)}
+        {data.map((x) => <Render key={x.link} {...x} />)}
       </ul>
 
 
@@ -123,6 +123,30 @@ const Content = () => {
 function Render(x) {
   const icons_size = 20
   const [isClicked, setIsClicked] = useState([0, 0, 0, 0]);
+
+
+  useEffect(()=> {
+
+
+    let temp=0
+    if(x.bookmark===1){
+      temp=1
+    }
+
+    if (x.feedback === 'l') {
+      setIsClicked([1, 0, 0,temp]);
+    } else if (x.feedback === 'd') {
+
+      setIsClicked([0, 1, 0,temp]);
+    } else if (x.feedback === "f") {
+
+      setIsClicked([0, 0, 1,temp]);
+    } else {
+      setIsClicked([0, 0,0,temp]);
+    }
+
+
+  },[])
 
 
   const upvote = () => {

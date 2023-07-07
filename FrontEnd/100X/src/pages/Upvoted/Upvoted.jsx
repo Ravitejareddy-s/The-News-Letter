@@ -61,7 +61,6 @@ const Upvoted = () => {
 
   const handleDateChange = (event) => {
     setSelectedDate(event.target.value);
-    console.log("handlefunction" + event.target.value);
   };
 
 
@@ -78,8 +77,19 @@ const Upvoted = () => {
       })
     });
     const data2 = await response.json();
-    n_data(data2)
-    console.log('flag')
+
+    const response3 = await fetch('http://localhost:3000/news/', {
+      method: 'POST', headers: {
+        'Content-Type': 'application/json'
+      }, body: JSON.stringify({
+        "date": selectedDate,
+        "feedback": 'f'
+      })
+    });
+    const data3 = await response3.json();
+
+
+    n_data([...data2,...data3])
 
   }
 
@@ -105,7 +115,7 @@ const Upvoted = () => {
 
 
       <ul className='upvote_container'>
-        {data.map((x) => <Render {...x} />)}
+        {data.map((x) => <Render key={x.link} {...x} />)}
       </ul>
 
 
@@ -116,30 +126,33 @@ const Upvoted = () => {
 
 function Render(x) {
   const icons_size = 20
-  let temp;
 
-  console.log('x.feedback:', x.feedback);
-  console.log('x.feedback:', x.title);
-  const [isClicked, setIsClicked] = useState([0,0,0,1]);
+  const [isClicked, setIsClicked] = useState([0,0,0,0]);
   useEffect(()=> {
 
+
+    let temp=0
+    if(x.bookmark===1){
+      temp=1
+    }
+
     if (x.feedback === 'l') {
-      setIsClicked([1, 0, 0,1]);
+      setIsClicked([1, 0, 0,temp]);
     } else if (x.feedback === 'd') {
 
-      setIsClicked([0, 1, 0,1]);
+      setIsClicked([0, 1, 0,temp]);
     } else if (x.feedback === "f") {
 
-      setIsClicked([0, 0, 1,1]);
+      setIsClicked([0, 0, 1,temp]);
     } else {
-      setIsClicked([0, 0,0,1]);
+      setIsClicked([0, 0,0,temp]);
     }
+
+
   },[])
 
 
   // let temp=[0,0,1]
-  console.log(isClicked)
-
   // console.log('x.feedback:'+x.feedback)
   // console.log('isClicked'+isClicked)
   const upvote = () => {
