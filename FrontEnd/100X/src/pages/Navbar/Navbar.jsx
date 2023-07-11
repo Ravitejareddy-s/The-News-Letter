@@ -18,6 +18,7 @@ const Navbar = ({title}) => {
         <ul className="navbar-menu">
           <li><a href="#">Home</a></li>
           <li><a href="#">About</a></li>
+          <li><a href="/content">Content</a></li>
           <li><a href="/upvoted">Upvoted</a></li>
           <li><a href="/bookmarked">Bookmarked</a></li>
         </ul>

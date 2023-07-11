@@ -12,9 +12,12 @@ const data=(date,Category)=>{
         "img": "https://news.mit.edu//sites/default/files/styles/news_article__image_gallery/public/images/202305/_4dfa1a06-6676-4c93-9a38-b8a779755bc5.jpeg?itok=9_g9650M",
         "site_name": "MIT News",
         "scraped_from": "Google",
-        "scraped_time":date,"date": "2023-06-05"
+        "scraped_time":date,"date": "2023-06-05",
+        'gpt_title':"title1",
+        'gpt_summary':'summary of the first post'
         },
         {
+            "feedback":'l',
          "category": Category,
         "link": "https://news.mit.edu/2023/driven-driverless-alejandra-heredia-0531",
         "title": "Driven to driverless",
@@ -23,9 +26,12 @@ const data=(date,Category)=>{
         "img": "https://news.mit.edu//sites/default/files/styles/news_article__image_gallery/public/images/202305/Cindy%20Heredia%20Headshot.jpg?itok=0QybdboI",
         "site_name": "MIT News",
         "scraped_from": "Google",
-        "scraped_time":date,"date": "2023-05-31"
+        "scraped_time":date,"date": "2023-05-31",
+        'gpt_title':"title2",
+        'gpt_summary':'summary of the second post'
         },
         {
+            "feedback":'l',
         "category": Category,
         "link": "https://news.mit.edu/2023/new-tool-helps-people-choose-right-method-evaluating-ai-models-0531",
         "title": "New tool helps people choose the right method for evaluating AI models",
@@ -34,7 +40,9 @@ const data=(date,Category)=>{
         "img": "https://news.mit.edu//sites/default/files/styles/news_article__image_gallery/public/images/202305/MIT-Saliency-Cards-01_0.jpg?itok=v-j2UPop",
         "site_name": "MIT News",
         "scraped_from": "Google",
-        "scraped_time":date,"date": "2023-05-31"
+        "scraped_time":date,"date": "2023-05-31",
+        'gpt_title':"title3",
+        'gpt_summary':'summary of the third post'
         },
         {
         "category": Category,

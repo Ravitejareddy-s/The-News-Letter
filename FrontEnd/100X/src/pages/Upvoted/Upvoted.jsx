@@ -2,8 +2,11 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import './Upvoted.css'
 import Navbar from "../Navbar/Navbar";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 // import noimg from './noimg.jpg'
 
+let mail_data=[]
 
 function timeSince(dateString) {
   var currentDate = new Date();
@@ -67,36 +70,73 @@ const Upvoted = () => {
 
   async function get_prob() {
 
+    if ("date", selectedDate) {
 
-    const response = await fetch('http://localhost:3000/news/', {
-      method: 'POST', headers: {
-        'Content-Type': 'application/json'
-      }, body: JSON.stringify({
-        "date": selectedDate,
-        "feedback": 'l'
-      })
-    });
-    const data2 = await response.json();
+      const response = await fetch('http://localhost:3000/news/', {
+        method: 'POST', headers: {
+          'Content-Type': 'application/json'
+        }, body: JSON.stringify({
+          "date": selectedDate,
+          "feedback": 'l'
+        })
+      });
+      const data2 = await response.json();
 
-    const response3 = await fetch('http://localhost:3000/news/', {
-      method: 'POST', headers: {
-        'Content-Type': 'application/json'
-      }, body: JSON.stringify({
-        "date": selectedDate,
-        "feedback": 'f'
-      })
-    });
-    const data3 = await response3.json();
+      const response3 = await fetch('http://localhost:3000/news/', {
+        method: 'POST', headers: {
+          'Content-Type': 'application/json'
+        }, body: JSON.stringify({
+          "date": selectedDate,
+          "feedback": 'f'
+        })
+      });
+      const data3 = await response3.json();
 
 
-    n_data([...data2,...data3])
-
+      n_data([...data2, ...data3])
+    }
   }
 
   useEffect(() => {
 
     get_prob();
   }, [selectedDate]);
+
+  function send_mail(){
+    if(mail_data.length){
+      fetch('http://localhost:3000/mail/', {
+        method: 'POST', headers: {
+          'Content-Type': 'application/json'
+        }, body: JSON.stringify(mail_data)
+      });
+
+      toast('sending emails⏳', {
+        position: "bottom-right",
+        autoClose: 5000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        });
+
+    }else{
+      toast.error('Select a blog to Mail', {
+        position: "bottom-right",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: false,
+        progress: undefined,
+        theme: "dark",
+        });
+
+    }
+    
+    <a>this is a test</a>
+  }
 
 
   return (
@@ -109,10 +149,11 @@ const Upvoted = () => {
           value={selectedDate}
           onChange={handleDateChange}
         />
+        <svg onClick={send_mail} xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><path fill="white" fill-rule="evenodd" d="m7.172 11.334l2.83 1.935l2.728-1.882l6.115 6.033c-.161.052-.333.08-.512.08H1.667c-.22 0-.43-.043-.623-.12l6.128-6.046ZM20 6.376v9.457c0 .247-.054.481-.15.692l-5.994-5.914L20 6.376ZM0 6.429l6.042 4.132l-5.936 5.858A1.663 1.663 0 0 1 0 15.833V6.43ZM18.333 2.5c.92 0 1.667.746 1.667 1.667v.586L9.998 11.648L0 4.81v-.643C0 3.247.746 2.5 1.667 2.5h16.666Z"/></svg>
 
 
       </div>
-
+      <ToastContainer />
 
       <ul className='upvote_container'>
         {data.map((x) => <Render key={x.link} {...x} />)}
@@ -126,6 +167,21 @@ const Upvoted = () => {
 
 function Render(x) {
   const icons_size = 20
+  const [isclicked, setclicked] = useState(0);
+
+
+
+  useEffect(()=> {
+    if(isclicked){
+      mail_data.push({'title':x.gpt_title,'content':x.gpt_summary,'link':x.link,'img':x.img});
+    }else{
+      mail_data = mail_data.filter(obj => obj.title !== x.gpt_title);
+    }
+
+
+
+
+  },[isclicked])
 
   const [isClicked, setIsClicked] = useState([0,0,0,0]);
   useEffect(()=> {
@@ -162,6 +218,7 @@ function Render(x) {
         'Content-Type': 'application/json'
       }, body: JSON.stringify({
         "link": x.link,
+        "uid": x.uid,
         "date": x.scraped_time,
         "upvote": 1 - isClicked[0]
       })
@@ -174,6 +231,7 @@ function Render(x) {
         'Content-Type': 'application/json'
       }, body: JSON.stringify({
         "link": x.link,
+        "uid": x.uid,
         "date": x.scraped_time,
         "downvote": 1 - isClicked[1]
       })
@@ -185,6 +243,7 @@ function Render(x) {
       method: 'POST', headers: {
         'Content-Type': 'application/json'
       }, body: JSON.stringify({
+        "uid": x.uid,
         "link": x.link,
         "date": x.scraped_time,
         "fav": 1 - isClicked[2]
@@ -198,6 +257,7 @@ function Render(x) {
         'Content-Type': 'application/json'
       }, body: JSON.stringify({
         "link": x.link,
+        "uid": x.uid,
         "date": x.scraped_time,
         "bookmark": 1 - isClicked[3]
       })
@@ -207,6 +267,7 @@ function Render(x) {
   return <li className='upvote_boxes'>
     <div className="header">
       <div>
+        <input type="checkbox" onChange={()=>setclicked(!isclicked)} id="myCheckbox" name="myCheckbox"/>
 
         <img src={x.logo_image} />
         <a>{x.scraped_from} </a>

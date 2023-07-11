@@ -72,13 +72,13 @@ const resp = async (openai, title, url) => {
 }
 // end of the scraping function
 
-const updateData = async (date, link,col,val) => {
+const updateData = async (date, uid,col,val) => {
 
   const updateCommand = new UpdateCommand({
     TableName: TableName,
     Key: {
       "scraped_time": date,
-      "link": link
+      "uid": parseInt(uid)
     },
     UpdateExpression: "SET #act = :actValue",
     ExpressionAttributeNames: {
@@ -132,15 +132,24 @@ app.get('/', (req, res) => {
   res.send('Health check')
 })
 
-app.post('/dummy', (req, res) => {
 
-  const key=Object.keys(req.body)[1]
-  const value=Object.values(req.body)[1]
-  
-  console.log(date);
-  console.log({key:value});
-  res.send('Health check')
+app.post('/mail', (req, res) => {
+  const list=req.body
+  for(let j=0;j < (list.length/3);j++){
+    let x=[]
+    for (let i = 0; i < 3; i++) {
+        if(list[i+(j*3)]){
+            x.push(list[i+(j*3)]);
+
+        }
+      }
+    mail(mails,x)
+
+}
+
+  res.send('email sent')
 })
+
 
 
 app.post('/news', (req, res) => {
@@ -171,6 +180,7 @@ app.post('/D_news', (req, res) => {
 app.post('/user-action', (req, res) => {
 
   const link=req.body.link
+  const uid=req.body.uid
   const date=req.body.date
   const upvote=req.body.upvote
   const downvote=req.body.downvote
@@ -179,13 +189,13 @@ app.post('/user-action', (req, res) => {
   const title=req.body.title
   if(upvote){
     console.log('feedback:'+'L')
-    updateData(date,link,'feedback','l');
+    updateData(date,uid,'feedback','l');
     (async () => {
       const x = await resp(openai, title, link);
       console.log("--------------------")
       const obj = JSON.parse(x);
-      updateData(date,link,'gpt_title',obj.modified_title);
-      updateData(date,link,'gpt_summary',obj.summarized_content);
+      updateData(date,uid,'gpt_title',obj.modified_title);
+      updateData(date,uid,'gpt_summary',obj.summarized_content);
     })();
 
 
@@ -193,43 +203,44 @@ app.post('/user-action', (req, res) => {
   if(downvote){
     console.log(date)
     console.log(link)
-    updateData(date,link,'feedback','d')
+    updateData(date,uid,'feedback','d')
     console.log('feedback:'+'D')
 
   }
   if(fav){
     console.log(date)
     console.log(link)
-    updateData(date,link,'feedback','f')
-    console.log('feedback:'+'F')
-
+    updateData(date,uid,'feedback','f')
+    console.log('feedback:'+'F');
+  
     (async () => {
       const x = await resp(openai, title, link);
       console.log("--------------------")
       const obj = JSON.parse(x);
-      updateData(date,link,'gpt_title',obj.modified_title);
-      updateData(date,link,'gpt_summary',obj.summarized_content);
+      updateData(date,uid,'gpt_title',obj.modified_title);
+      updateData(date,uid,'gpt_summary',obj.summarized_content);
     })();
+
 
   }
   if(fav===0||upvote===0||downvote===0){
     console.log(date)
     console.log(link)
-    updateData(date,link,'feedback',0)
+    updateData(date,uid,'feedback',0)
     console.log('feedback:'+'0')
 
   }
   if(bookmark===0){
     console.log(date)
     console.log(link)
-    updateData(date,link,'bookmark',0)
+    updateData(date,uid,'bookmark',0)
     console.log({'bookmark':0})
 
   }
   if(bookmark===1){
     console.log(date)
     console.log(link)
-    updateData(date,link,'bookmark',1)
+    updateData(date,uid,'bookmark',1)
     console.log({'bookmark':1})
 
   }

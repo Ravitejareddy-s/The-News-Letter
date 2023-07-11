@@ -68,18 +68,20 @@ const Content = () => {
 
   async function get_prob() {
 
+    if ("date", selectedDate) {
 
-    const response = await fetch('http://localhost:3000/news/', {
-      method: 'POST', headers: {
-        'Content-Type': 'application/json'
-      }, body: JSON.stringify({
-        "date": selectedDate,
-        "category": cat
-      })
-    });
-    const data2 = await response.json();
-    n_data(data2)
-    console.log('flag')
+
+      const response = await fetch('http://localhost:3000/news/', {
+        method: 'POST', headers: {
+          'Content-Type': 'application/json'
+        }, body: JSON.stringify({
+          "date": selectedDate,
+          "category": cat
+        })
+      });
+      const data2 = await response.json();
+      n_data(data2)
+    }
 
   }
 
@@ -156,6 +158,7 @@ function Render(x) {
         'Content-Type': 'application/json'
       }, body: JSON.stringify({
         "link": x.link,
+        "uid": x.uid,
         "date": x.scraped_time,
         "title":x.title,
         "upvote": 1 - isClicked[0]
@@ -169,6 +172,7 @@ function Render(x) {
         'Content-Type': 'application/json'
       }, body: JSON.stringify({
         "link": x.link,
+        "uid": x.uid,
         "date": x.scraped_time,
         "downvote": 1 - isClicked[1]
       })
@@ -181,6 +185,7 @@ function Render(x) {
         'Content-Type': 'application/json'
       }, body: JSON.stringify({
         "link": x.link,
+        "uid": x.uid,
         "date": x.scraped_time,
         "fav": 1 - isClicked[2]
       })
@@ -193,6 +198,7 @@ function Render(x) {
         'Content-Type': 'application/json'
       }, body: JSON.stringify({
         "link": x.link,
+        "uid": x.uid,
         "date": x.scraped_time,
         "bookmark": 1 - isClicked[3]
       })

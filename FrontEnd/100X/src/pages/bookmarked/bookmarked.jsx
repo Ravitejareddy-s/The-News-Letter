@@ -149,6 +149,7 @@ function Render(x) {
         'Content-Type': 'application/json'
       }, body: JSON.stringify({
         "link": x.link,
+        "uid": x.uid,
         "date": x.scraped_time,
         "upvote": 1 - isClicked[0]
       })
@@ -161,6 +162,7 @@ function Render(x) {
         'Content-Type': 'application/json'
       }, body: JSON.stringify({
         "link": x.link,
+        "uid": x.uid,
         "date": x.scraped_time,
         "downvote": 1 - isClicked[1]
       })
@@ -173,6 +175,7 @@ function Render(x) {
         'Content-Type': 'application/json'
       }, body: JSON.stringify({
         "link": x.link,
+        "uid": x.uid,
         "date": x.scraped_time,
         "fav": 1 - isClicked[2]
       })
@@ -185,6 +188,7 @@ function Render(x) {
         'Content-Type': 'application/json'
       }, body: JSON.stringify({
         "link": x.link,
+        "uid": x.uid,
         "date": x.scraped_time,
         "bookmark": 1 - isClicked[3]
       })
