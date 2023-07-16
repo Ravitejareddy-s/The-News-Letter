@@ -26,11 +26,21 @@ const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,
 });
 const openai = new OpenAIApi(configuration);
-
-const resp = async (openai, title, url) => {
+const resp = async (openai, title, url,p_title,p_desc) => {
   let post = '';
+  if (p_title) {
+      p_title=p_title
+    } else {
+      p_title='make the title more attractive and engaging'
+    }
+    
+    if (p_desc) {
+      p_desc=p_desc
+    } else {
+      p_desc="summarize news piece with a touch of humor and creativity"
+    }
+  const system_content = `I will give you the title and content as input. Please give me:\n- Modified title (${p_title})\n- Summarized content(${p_desc})\nPlease provide the output in JSON format as given below:\n{"modified_title": ,"summarized_content":}`;
 
-  const system_content = 'I will give you the title and content as input. Please give me:\n- Modified title (make the title more attractive and engaging)\n- Summarized content\nPlease provide the output in JSON format as given below:\n{"modified_title": ,"summarized_content":}';
   const headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/112.0',
     'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
@@ -55,6 +65,29 @@ const resp = async (openai, title, url) => {
         post = post + ($(element).text().trim()) + '\n';
       }
     });
+              
+    post=post.substring(0,10000);
+
+
+    let bigImage = null;
+    let maxArea = 0;
+
+    $('img').each((index, element) => {
+      const imageElement = $(element);
+      const imageUrl = imageElement.attr('src');
+      const imageWidth = imageElement.attr('width') || 0;
+      const imageHeight = imageElement.attr('height') || 0;
+      const imageArea = parseInt(imageWidth) * parseInt(imageHeight);
+
+      if (imageArea > maxArea) {
+        maxArea = imageArea;
+        bigImage = imageUrl;
+      }
+    });
+
+
+
+
 
     const user_content = JSON.stringify({ title: title, content: post });
     const completion = await openai.createChatCompletion({
@@ -65,12 +98,12 @@ const resp = async (openai, title, url) => {
       ]
     });
 
-    return completion.data.choices[0].message.content;
+    return [completion.data.choices[0].message.content,bigImage];
   } catch (error) {
-    console.error('Error:', error);
+    bigImage=''
+    return [{"modified_title":"GPT ERROR pls try again" ,"summarized_content":"GPT ERROR pls try again"},bigImage];
   }
 }
-// end of the scraping function
 
 const updateData = async (date, uid,col,val) => {
 
@@ -191,7 +224,7 @@ app.post('/user-action', (req, res) => {
     console.log('feedback:'+'L')
     updateData(date,uid,'feedback','l');
     (async () => {
-      const x = await resp(openai, title, link);
+      const x = (await resp(openai, title, link))[0];
       console.log("--------------------")
       const obj = JSON.parse(x);
       updateData(date,uid,'gpt_title',obj.modified_title);
@@ -214,7 +247,7 @@ app.post('/user-action', (req, res) => {
     console.log('feedback:'+'F');
   
     (async () => {
-      const x = await resp(openai, title, link);
+      const x = (await resp(openai, title, link))[0];
       console.log("--------------------")
       const obj = JSON.parse(x);
       updateData(date,uid,'gpt_title',obj.modified_title);

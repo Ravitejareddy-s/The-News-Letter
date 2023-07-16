@@ -11,9 +11,10 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/Edit/:date/:uid" element={<Edit />} />
         <Route path="/Upvoted" element={<Upvoted />} />
-        <Route path="/Edit/:date/:link" element={<Edit />} />
         <Route path="/content" element={<Content />} />
+        <Route path="/" element={<Content />} />
         <Route path="/bookmarked" element={<Bookmarked />} />
       </Routes>
 
