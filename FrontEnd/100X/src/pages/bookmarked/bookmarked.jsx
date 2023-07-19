@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import './bookmarked.css'
 import Navbar from "../Navbar/Navbar";
+import {backendUrl} from "../constants.js";
 // import noimg from './noimg.jpg'
 
 
@@ -69,7 +70,7 @@ const Bookmarked = () => {
   async function get_prob() {
 
 
-    const response = await fetch('http://localhost:3000/news/', {
+    const response = await fetch(`${backendUrl}/news/`, {
       method: 'POST', headers: {
         'Content-Type': 'application/json'
       }, body: JSON.stringify({
@@ -144,7 +145,7 @@ function Render(x) {
   // console.log('isClicked'+isClicked)
   const upvote = () => {
     setIsClicked(prevState => [1 - prevState[0], 0, 0, 0]);
-    fetch('http://localhost:3000/user-action/', {
+    fetch(`${backendUrl}/user-action/`, {
       method: 'POST', headers: {
         'Content-Type': 'application/json'
       }, body: JSON.stringify({
@@ -157,7 +158,7 @@ function Render(x) {
   };
   const downvote = () => {
     setIsClicked(prevState => [0, 1 - prevState[1], 0, 0]);
-    fetch('http://localhost:3000/user-action/', {
+    fetch(`${backendUrl}/user-action/`, {
       method: 'POST', headers: {
         'Content-Type': 'application/json'
       }, body: JSON.stringify({
@@ -170,7 +171,7 @@ function Render(x) {
   };
   const fav = () => {
     setIsClicked(prevState => [0, 0, 1 - prevState[2], 0]);
-    fetch('http://localhost:3000/user-action/', {
+    fetch(`${backendUrl}/user-action/`, {
       method: 'POST', headers: {
         'Content-Type': 'application/json'
       }, body: JSON.stringify({
@@ -183,7 +184,7 @@ function Render(x) {
   };
   const bookmark = () => {
     setIsClicked(prevState => [prevState[0], prevState[1], prevState[2], 1 - prevState[3]]);
-    fetch('http://localhost:3000/user-action/', {
+    fetch(`${backendUrl}/user-action/`, {
       method: 'POST', headers: {
         'Content-Type': 'application/json'
       }, body: JSON.stringify({

@@ -5,6 +5,7 @@ import Content from './pages/content/content.jsx'
 import Bookmarked from './pages/bookmarked/bookmarked.jsx'
 import Upvoted from './pages/Upvoted/Upvoted.jsx'
 import Edit from './pages/Edit/Edit.jsx'
+import Login from './pages/Login/Login.jsx'
 
 function App() {
 
@@ -16,6 +17,7 @@ function App() {
         <Route path="/content" element={<Content />} />
         <Route path="/" element={<Content />} />
         <Route path="/bookmarked" element={<Bookmarked />} />
+        <Route path="/login" element={<Login />} />
       </Routes>
 
     </BrowserRouter>

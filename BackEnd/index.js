@@ -18,7 +18,7 @@ const axios = require('axios');
 const cheerio = require('cheerio');
 const TableName=process.env.table_name
 const mail = require("./mail.js");
-const mails=['ravitejareddy.seemala@gmail.com']
+const mails=['ravitejareddy.seemala@gmail.com','100xgrowthteam@gmail.com']
 
 
 // function that scrapes the data and summerrises
@@ -26,7 +26,7 @@ const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,
 });
 const openai = new OpenAIApi(configuration);
-const resp = async (openai, title, url,p_title,p_desc) => {
+const resp = async (openai, title, url,p_title,p_desc,scraped_data) => {
   let post = '';
   if (p_title) {
       p_title=p_title
@@ -65,7 +65,12 @@ const resp = async (openai, title, url,p_title,p_desc) => {
         post = post + ($(element).text().trim()) + '\n';
       }
     });
-              
+    
+    if(scraped_data){
+      console.log("post is taking from input",scraped_data)
+      post=scraped_data
+    }
+    
     post=post.substring(0,10000);
 
 
@@ -82,10 +87,24 @@ const resp = async (openai, title, url,p_title,p_desc) => {
       if (imageArea > maxArea) {
         maxArea = imageArea;
         bigImage = imageUrl;
+        console.log(bigImage)
+
       }
     });
 
+    $('img').each((index, element) => {
+      const imageElement = $(element);
+      const imageUrl = imageElement.attr('src');
+      const imageWidth = imageElement.attr('width') || 0;
+      const imageHeight = imageElement.attr('height') || 0;
+      const imageArea = parseInt(imageWidth) * parseInt(imageHeight);
 
+      if (imageArea > maxArea) {
+        maxArea = imageArea;
+        bigImage = imageUrl;
+        console.log(bigImage);
+      }
+    });
 
 
 
@@ -104,8 +123,21 @@ const resp = async (openai, title, url,p_title,p_desc) => {
     return [{"modified_title":"GPT ERROR pls try again" ,"summarized_content":"GPT ERROR pls try again"},bigImage];
   }
 }
+const updateData = async (date, uid, updates) => {
+  let updateExpression = "SET ";
+  const expressionAttributeNames = {};
+  const expressionAttributeValues = {};
 
-const updateData = async (date, uid,col,val) => {
+  Object.keys(updates).forEach((col, index) => {
+    const attrName = `#attr${index}`;
+    const attrValue = `:value${index}`;
+    updateExpression += `${attrName} = ${attrValue}, `;
+    expressionAttributeNames[attrName] = col;
+    expressionAttributeValues[attrValue] = updates[col];
+  });
+
+  // Remove the trailing comma and space from the update expression
+  const finalUpdateExpression = updateExpression.slice(0, -2);
 
   const updateCommand = new UpdateCommand({
     TableName: TableName,
@@ -113,22 +145,38 @@ const updateData = async (date, uid,col,val) => {
       "scraped_time": date,
       "uid": parseInt(uid)
     },
-    UpdateExpression: "SET #act = :actValue",
-    ExpressionAttributeNames: {
-      "#act": col
-    },
-    ExpressionAttributeValues: {
-      ":actValue": val
-    }
+    UpdateExpression: finalUpdateExpression,
+    ExpressionAttributeNames: expressionAttributeNames,
+    ExpressionAttributeValues: expressionAttributeValues
   });
 
   await docClient.send(updateCommand);
   console.log("Update completed successfully.");
-
 };
 
-const getdata = async (x,y) => {
-    const command = new QueryCommand({
+
+
+const getdata = async (x, y) => {
+  let command;
+  if (y.uid) {
+    console.log("hitting if");
+    command = new QueryCommand({
+      TableName: TableName,
+      KeyConditionExpression: "#scraped_time = :scraped_timeValue AND #uid = :uidValue",
+      ExpressionAttributeNames: {
+        "#scraped_time": "scraped_time",
+        "#uid": "uid",
+      },
+      ExpressionAttributeValues: {
+        ":scraped_timeValue": x,
+        ":uidValue": parseInt(y.uid),
+      },
+    });
+
+  } else {
+    console.log("hitting else");
+
+    command = new QueryCommand({
       TableName: TableName,
       KeyConditionExpression: "#scraped_time = :scraped_timeValue",
       FilterExpression: "#category = :categoryValue",
@@ -141,27 +189,48 @@ const getdata = async (x,y) => {
         ":categoryValue": Object.values(y)[0]
       }
     });
-  
-    const response = await docClient.send(command);
-    console.log("hit the server");
-    return response;
-  };
+  }
 
+  const response = await docClient.send(command);
+  console.log("hit the server");
+  return response;
+};
+
+
+app.post("/login", (req, res) => {
+  const {email,password} = req.body;
+  const user = USERS.find((x) => x.email === email);
+
+  if (!user) {
+    return res.status(403).json({ msg: "User not found" });
+  }
+
+  if (user.password !== password) {
+    return res.status(403).json({ msg: "Incorrect password" });
+  }
+
+  const token = jwt.sign(
+    {
+      id: user.id,
+    },
+    JWT_SECRET
+  );
+
+  return res.json({ token });
+});
 
 
 app.get('/', (req, res) => {
-  const data=[{
-    'title':'title1',
-    'content':'this will be the disc of the post',
-    'link':'https://blog.hubspot.com/marketing/what-is-a-blog',
-    'img':'https://blog.hubspot.com/hs-fs/hubfs/what-is-a-blog-3.jpg?width=893&height=600&name=what-is-a-blog-3.jpg'
-  },{
-    'title':'title1',
-    'content':'this will be the disc of the post',
-    'link':'https://blog.hubspot.com/marketing/what-is-a-blog',
-    'img':'https://blog.hubspot.com/hs-fs/hubfs/linkedin-summary-examples-4.jpg?width=893&height=600&name=linkedin-summary-examples-4.jpg'
-  }]
-  mail(mails,data)
+
+  // updateData('2023', 23223233232300, {'not present':"insert it"});
+  
+  res.send('Health check')
+})
+
+app.post('/update_data', (req, res) => {
+
+  updateData(req.body.date, req.body.uid, req.body.update);
+  
   res.send('Health check')
 })
 
@@ -181,6 +250,20 @@ app.post('/mail', (req, res) => {
 }
 
   res.send('email sent')
+})
+
+app.post('/generate', (req, res) => {
+  const { title, link,p_title,p_desc,scraped_data } = req.body;
+// const resp = async (openai, title, url,p_title,p_desc,scraped_data) => {
+
+    (async () => {
+      const x = (await resp(openai, title, link,p_title,p_desc,scraped_data));
+      console.log("--------------------")
+      const obj = JSON.parse(x[0]);
+      res.json({ 'gpt_title':  obj.modified_title,'gpt_summary':obj.summarized_content,'image':x[1]});
+
+    })();
+
 })
 
 
@@ -222,13 +305,13 @@ app.post('/user-action', (req, res) => {
   const title=req.body.title
   if(upvote){
     console.log('feedback:'+'L')
-    updateData(date,uid,'feedback','l');
+    updateData(date,uid,{'feedback':'l'});
     (async () => {
       const x = (await resp(openai, title, link))[0];
       console.log("--------------------")
       const obj = JSON.parse(x);
-      updateData(date,uid,'gpt_title',obj.modified_title);
-      updateData(date,uid,'gpt_summary',obj.summarized_content);
+      updateData(date,uid,{'gpt_title':obj.modified_title});
+      updateData(date,uid,{'gpt_summary':obj.summarized_content});
     })();
 
 
@@ -236,22 +319,22 @@ app.post('/user-action', (req, res) => {
   if(downvote){
     console.log(date)
     console.log(link)
-    updateData(date,uid,'feedback','d')
+    updateData(date,uid,{'feedback':'d'})
     console.log('feedback:'+'D')
 
   }
   if(fav){
     console.log(date)
     console.log(link)
-    updateData(date,uid,'feedback','f')
+    updateData(date,uid,{'feedback':'f'})
     console.log('feedback:'+'F');
   
     (async () => {
       const x = (await resp(openai, title, link))[0];
       console.log("--------------------")
       const obj = JSON.parse(x);
-      updateData(date,uid,'gpt_title',obj.modified_title);
-      updateData(date,uid,'gpt_summary',obj.summarized_content);
+      updateData(date,uid,{'gpt_title':obj.modified_title});
+      updateData(date,uid,{'gpt_summary':obj.summarized_content});
     })();
 
 
@@ -259,21 +342,21 @@ app.post('/user-action', (req, res) => {
   if(fav===0||upvote===0||downvote===0){
     console.log(date)
     console.log(link)
-    updateData(date,uid,'feedback',0)
+    updateData(date,uid,{'feedback':0})
     console.log('feedback:'+'0')
 
   }
   if(bookmark===0){
     console.log(date)
     console.log(link)
-    updateData(date,uid,'bookmark',0)
+    updateData(date,uid,{'bookmark':0})
     console.log({'bookmark':0})
 
   }
   if(bookmark===1){
     console.log(date)
     console.log(link)
-    updateData(date,uid,'bookmark',1)
+    updateData(date,uid,{'bookmark':1})
     console.log({'bookmark':1})
 
   }

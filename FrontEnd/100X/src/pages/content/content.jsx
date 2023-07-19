@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import './content.css'
 import noimg from './noimg.jpg'
 import Navbar from "../Navbar/Navbar";
+import {backendUrl} from "../constants.js";
+
 
 
 function timeSince(dateString) {
@@ -64,6 +66,34 @@ const Content = () => {
     console.log("handlefunction" + event.target.value);
   };
 
+  async function new_post() {
+
+
+
+    const response = await fetch(`${backendUrl}/news/`, {
+      method: 'POST', headers: {
+        'Content-Type': 'application/json'
+      }, body: JSON.stringify({
+        "date": 'counter',
+        "uid": -1
+      })
+    });
+    const data2 = await response.json();
+    if (data2[0].count) {
+      await fetch(`${backendUrl}/update_data`, {
+        method: 'POST', headers: {
+          'Content-Type': 'application/json'
+        }, body: JSON.stringify({ 'date': 'counter', 'uid': -1, 'update': { 'count': parseInt(data2[0].count) - 1 } })
+      });
+
+      const currentDate = new Date().toISOString().split('T')[0];
+
+      var newTab = window.open(`/edit/${currentDate}/${data2[0].count}`, '_blank');
+
+      newTab.focus();
+    }
+
+  }
 
 
   async function get_prob() {
@@ -71,7 +101,7 @@ const Content = () => {
     if ("date", selectedDate) {
 
 
-      const response = await fetch('http://localhost:3000/news/', {
+      const response = await fetch(`${backendUrl}/news/`, {
         method: 'POST', headers: {
           'Content-Type': 'application/json'
         }, body: JSON.stringify({
@@ -109,6 +139,8 @@ const Content = () => {
           <option value="Digital marketing">Digital marketing</option>
           <option value="Marketing strategies">Marketing strategies</option>
         </select>
+
+        <button onClick={new_post}>+ new</button>
       </div>
 
 
@@ -153,7 +185,7 @@ function Render(x) {
 
   const upvote = () => {
     setIsClicked(prevState => [1 - prevState[0], 0, 0, 0]);
-    fetch('http://localhost:3000/user-action/', {
+    fetch(`${backendUrl}/user-action/`, {
       method: 'POST', headers: {
         'Content-Type': 'application/json'
       }, body: JSON.stringify({
@@ -167,7 +199,7 @@ function Render(x) {
   };
   const downvote = () => {
     setIsClicked(prevState => [0, 1 - prevState[1], 0, 0]);
-    fetch('http://localhost:3000/user-action/', {
+    fetch(`${backendUrl}/user-action/`, {
       method: 'POST', headers: {
         'Content-Type': 'application/json'
       }, body: JSON.stringify({
@@ -180,7 +212,7 @@ function Render(x) {
   };
   const fav = () => {
     setIsClicked(prevState => [0, 0, 1 - prevState[2], 0]);
-    fetch('http://localhost:3000/user-action/', {
+    fetch(`${backendUrl}/user-action/`, {
       method: 'POST', headers: {
         'Content-Type': 'application/json'
       }, body: JSON.stringify({
@@ -193,7 +225,7 @@ function Render(x) {
   };
   const bookmark = () => {
     setIsClicked(prevState => [prevState[0], prevState[1], prevState[2], 1 - prevState[3]]);
-    fetch('http://localhost:3000/user-action/', {
+    fetch(`${backendUrl}/user-action/`, {
       method: 'POST', headers: {
         'Content-Type': 'application/json'
       }, body: JSON.stringify({

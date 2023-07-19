@@ -4,6 +4,7 @@ import './Upvoted.css'
 import Navbar from "../Navbar/Navbar";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import {backendUrl} from "../constants.js";
 // import noimg from './noimg.jpg'
 
 let mail_data=[]
@@ -72,7 +73,7 @@ const Upvoted = () => {
 
     if ("date", selectedDate) {
 
-      const response = await fetch('http://localhost:3000/news/', {
+      const response = await fetch(`${backendUrl}/news/`, {
         method: 'POST', headers: {
           'Content-Type': 'application/json'
         }, body: JSON.stringify({
@@ -82,7 +83,7 @@ const Upvoted = () => {
       });
       const data2 = await response.json();
 
-      const response3 = await fetch('http://localhost:3000/news/', {
+      const response3 = await fetch(`${backendUrl}/news/`, {
         method: 'POST', headers: {
           'Content-Type': 'application/json'
         }, body: JSON.stringify({
@@ -104,7 +105,7 @@ const Upvoted = () => {
 
   function send_mail(){
     if(mail_data.length){
-      fetch('http://localhost:3000/mail/', {
+      fetch(`${backendUrl}/mail/`, {
         method: 'POST', headers: {
           'Content-Type': 'application/json'
         }, body: JSON.stringify(mail_data)
@@ -213,7 +214,7 @@ function Render(x) {
   // console.log('isClicked'+isClicked)
   const upvote = () => {
     setIsClicked(prevState => [1 - prevState[0], 0, 0, 0]);
-    fetch('http://localhost:3000/user-action/', {
+    fetch(`${backendUrl}/user-action/`, {
       method: 'POST', headers: {
         'Content-Type': 'application/json'
       }, body: JSON.stringify({
@@ -226,7 +227,7 @@ function Render(x) {
   };
   const downvote = () => {
     setIsClicked(prevState => [0, 1 - prevState[1], 0, 0]);
-    fetch('http://localhost:3000/user-action/', {
+    fetch(`${backendUrl}/user-action/`, {
       method: 'POST', headers: {
         'Content-Type': 'application/json'
       }, body: JSON.stringify({
@@ -239,7 +240,7 @@ function Render(x) {
   };
   const fav = () => {
     setIsClicked(prevState => [0, 0, 1 - prevState[2], 0]);
-    fetch('http://localhost:3000/user-action/', {
+    fetch(`${backendUrl}/user-action/`, {
       method: 'POST', headers: {
         'Content-Type': 'application/json'
       }, body: JSON.stringify({
@@ -252,7 +253,7 @@ function Render(x) {
   };
   const bookmark = () => {
     setIsClicked(prevState => [prevState[0], prevState[1], prevState[2], 1 - prevState[3]]);
-    fetch('http://localhost:3000/user-action/', {
+    fetch(`${backendUrl}/user-action/`, {
       method: 'POST', headers: {
         'Content-Type': 'application/json'
       }, body: JSON.stringify({
@@ -273,9 +274,10 @@ function Render(x) {
         <a>{x.scraped_from} </a>
       </div>
       <button>publish</button>
+      <a href={`/edit/${x.scraped_time}/${x.uid}`} target="_blank">
 
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g id="feEdit0" fill="none" fill-rule="evenodd" stroke="none" stroke-width="1"><g id="feEdit1" fill="currentColor"><path id="feEdit2" d="M5 20h14a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Zm-1-5L14 5l3 3L7 18H4v-3ZM15 4l2-2l3 3l-2.001 2.001L15 4Z" /></g></g></svg>
-
+      </a>
     </div>
 
 
