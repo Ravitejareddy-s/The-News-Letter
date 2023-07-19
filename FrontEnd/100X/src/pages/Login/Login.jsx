@@ -4,6 +4,8 @@ import './Login.css'
 import Navbar from "../Navbar/Navbar";
 import {backendUrl} from "../constants.js";
 // import noimg from './noimg.jpg'
+import { TiEye } from 'react-icons/ti'; // Import the eye icon from react-icons
+
 
 
 
@@ -28,21 +30,39 @@ const Login = () => {
     setErrorMsg('');
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (email === '') {
       setErrorMsg('Please enter your email');
-      return;
     } else if (password === '') {
       setErrorMsg('Please enter your password');
-      return;
     } else if (!isValidEmail(email)) {
       setErrorMsg('Please enter a valid email');
-      return;
     } else {
-      setErrorMsg('');
-      // Perform your form submission here
+      try {
+        const response = await fetch(`${backendUrl}/login`, {
+          method: 'POST',headers: {
+            'Content-Type': 'application/json'
+          },body: JSON.stringify({
+            email: email,
+            password: password,
+          }),
+        });
+
+        const json = await response.json();
+
+        localStorage.setItem("token", json.token);
+        // Handle the response, e.g., store token in localStorage, update state, etc.
+        // localStorage.setItem('token', json.token);
+        
+        // You may also show a success message to the user if required
+        setErrorMsg('Login successful');
+        window.open('/content');
+
+      } catch (error) {
+        setErrorMsg('An error occurred during login');
+      }
     }
   };
 
@@ -60,7 +80,7 @@ const Login = () => {
         <span className="error animated tada" id="msg">
           {errorMsg}
         </span>
-        <form name="form1" className="box" onSubmit={handleSubmit}>
+        <form name="form1" className="box" >
           <h4>
             Admin<span>Panel</span>
           </h4>
@@ -73,11 +93,12 @@ const Login = () => {
             value={email}
             onChange={handleEmailChange}
           />
-          <i
-            className={`typcn typcn-eye ${showPassword ? 'active' : ''}`}
-            id="eye"
-            onClick={togglePass}
-          ></i>
+
+
+            <TiEye
+              className={`typcn typcn-eye ${showPassword ? 'active' : ''}`}
+              onClick={togglePass}
+            />
           <input
             type={showPassword ? 'text' : 'password'}
             name="password"
@@ -86,8 +107,8 @@ const Login = () => {
             value={password}
             onChange={handlePasswordChange}
           />
-
-          <input type="submit" value="Sign in" className="btn1" />
+<button onClick={handleSubmit} className="btn1">Sign In</button>
+          {/* <input type="submit" onClick={handleSubmit} value="Sign in check" className="btn1" /> */}
         </form>
         <a href="#" className="dnthave">
           Don’t have an account? Sign up

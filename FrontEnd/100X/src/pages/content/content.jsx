@@ -72,6 +72,7 @@ const Content = () => {
 
     const response = await fetch(`${backendUrl}/news/`, {
       method: 'POST', headers: {
+        "authorization": localStorage.getItem("token"),
         'Content-Type': 'application/json'
       }, body: JSON.stringify({
         "date": 'counter',
@@ -82,6 +83,7 @@ const Content = () => {
     if (data2[0].count) {
       await fetch(`${backendUrl}/update_data`, {
         method: 'POST', headers: {
+          "authorization": localStorage.getItem("token"),
           'Content-Type': 'application/json'
         }, body: JSON.stringify({ 'date': 'counter', 'uid': -1, 'update': { 'count': parseInt(data2[0].count) - 1 } })
       });
@@ -103,6 +105,7 @@ const Content = () => {
 
       const response = await fetch(`${backendUrl}/news/`, {
         method: 'POST', headers: {
+          "authorization": localStorage.getItem("token"),
           'Content-Type': 'application/json'
         }, body: JSON.stringify({
           "date": selectedDate,
@@ -187,6 +190,7 @@ function Render(x) {
     setIsClicked(prevState => [1 - prevState[0], 0, 0, 0]);
     fetch(`${backendUrl}/user-action/`, {
       method: 'POST', headers: {
+        "authorization": localStorage.getItem("token"),
         'Content-Type': 'application/json'
       }, body: JSON.stringify({
         "link": x.link,
@@ -201,6 +205,7 @@ function Render(x) {
     setIsClicked(prevState => [0, 1 - prevState[1], 0, 0]);
     fetch(`${backendUrl}/user-action/`, {
       method: 'POST', headers: {
+        "authorization": localStorage.getItem("token"),
         'Content-Type': 'application/json'
       }, body: JSON.stringify({
         "link": x.link,
@@ -214,6 +219,7 @@ function Render(x) {
     setIsClicked(prevState => [0, 0, 1 - prevState[2], 0]);
     fetch(`${backendUrl}/user-action/`, {
       method: 'POST', headers: {
+        "authorization": localStorage.getItem("token"),
         'Content-Type': 'application/json'
       }, body: JSON.stringify({
         "link": x.link,
@@ -227,6 +233,7 @@ function Render(x) {
     setIsClicked(prevState => [prevState[0], prevState[1], prevState[2], 1 - prevState[3]]);
     fetch(`${backendUrl}/user-action/`, {
       method: 'POST', headers: {
+        "authorization": localStorage.getItem("token"),
         'Content-Type': 'application/json'
       }, body: JSON.stringify({
         "link": x.link,

@@ -168,5 +168,35 @@ form{
     color: rgb(205, 205, 212);
 }
 
-
+.input-container {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ccc; /* Add any desired styling for the input container */
+    border-radius: 4px; /* Add any desired border radius for the input container */
+  }
+  
+  .input-container input {
+    flex: 1;
+    border: none; /* Remove the default input border */
+    padding: 8px; /* Add any desired padding for the input */
+    border-radius: 4px; /* Add any desired border radius for the input */
+  }
+  
+  .eye-icon {
+    padding: 8px; /* Add any desired padding for the eye icon container */
+    cursor: pointer;
+    background-color: #f1f1f1; /* Add any desired background color for the eye icon container */
+    border-top-right-radius: 4px; /* Add any desired border radius for the eye icon container */
+    border-bottom-right-radius: 4px;
+  }
+  
+  .eye-icon-svg {
+    width: 20px; /* Add any desired width and height for the eye icon */
+    height: 20px;
+  }
+  
+  .eye-icon.active {
+    background-color: #e1e1e1; /* Add any desired background color for the active eye icon */
+  }
+  
 

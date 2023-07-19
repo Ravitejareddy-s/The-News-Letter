@@ -32,6 +32,7 @@ const Edit = () => {
 
       const response = await fetch(`${backendUrl}/news/`, {
         method: 'POST', headers: {
+          "authorization": localStorage.getItem("token"),
           'Content-Type': 'application/json'
         }, body: JSON.stringify({
           "date": date,
@@ -94,6 +95,7 @@ const Edit = () => {
         console.log(payload.update)
 // console.log(payload)
         await fetch(`${backendUrl}/update_data`, {
+          "authorization": localStorage.getItem("token"),
           method: 'POST', headers: {
             'Content-Type': 'application/json'
           }, body: JSON.stringify(payload)
@@ -123,6 +125,7 @@ const Edit = () => {
 
     const response = await fetch(`${backendUrl}/generate/`, {
       method: 'POST', headers: {
+        "authorization": localStorage.getItem("token"),
         'Content-Type': 'application/json'
       }, body: JSON.stringify({
 

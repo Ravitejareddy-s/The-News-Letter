@@ -164,7 +164,7 @@ label span {
 .typcn {
   position: absolute;
   left: 339px;
-  top: 282px;
+  top: 290px;
   color: #3b476b;
   font-size: 22px;
   cursor: pointer;
@@ -197,8 +197,8 @@ label span {
     top: 450px;
     width: 100%;
     color: #78797d;
-    font-size: 14px;
-    text-align: center;
+    font-size: 11px;
+    text-align: right;
 }
 
 .footer .fa {
@@ -208,3 +208,20 @@ label span {
 .box{
     text-align: center;
 }
+
+.error {
+  background: #ff3333;
+  text-align: center;
+  width: 337px;
+  height: 20px;
+  padding: 2px;
+  border: 0;
+  border-radius: 5px;
+  margin: 10px auto 10px;
+  position: absolute;
+  top: 31%;
+  left: 7.2%;
+  color: white;
+  /* Remove display: none; */
+}
+

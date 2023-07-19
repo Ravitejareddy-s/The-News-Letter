@@ -75,6 +75,7 @@ const Upvoted = () => {
 
       const response = await fetch(`${backendUrl}/news/`, {
         method: 'POST', headers: {
+          "authorization": localStorage.getItem("token"),
           'Content-Type': 'application/json'
         }, body: JSON.stringify({
           "date": selectedDate,
@@ -85,6 +86,7 @@ const Upvoted = () => {
 
       const response3 = await fetch(`${backendUrl}/news/`, {
         method: 'POST', headers: {
+          "authorization": localStorage.getItem("token"),
           'Content-Type': 'application/json'
         }, body: JSON.stringify({
           "date": selectedDate,
@@ -107,6 +109,7 @@ const Upvoted = () => {
     if(mail_data.length){
       fetch(`${backendUrl}/mail/`, {
         method: 'POST', headers: {
+          "authorization": localStorage.getItem("token"),
           'Content-Type': 'application/json'
         }, body: JSON.stringify(mail_data)
       });
@@ -216,6 +219,7 @@ function Render(x) {
     setIsClicked(prevState => [1 - prevState[0], 0, 0, 0]);
     fetch(`${backendUrl}/user-action/`, {
       method: 'POST', headers: {
+        "authorization": localStorage.getItem("token"),
         'Content-Type': 'application/json'
       }, body: JSON.stringify({
         "link": x.link,
@@ -229,6 +233,7 @@ function Render(x) {
     setIsClicked(prevState => [0, 1 - prevState[1], 0, 0]);
     fetch(`${backendUrl}/user-action/`, {
       method: 'POST', headers: {
+        "authorization": localStorage.getItem("token"),
         'Content-Type': 'application/json'
       }, body: JSON.stringify({
         "link": x.link,
@@ -242,6 +247,7 @@ function Render(x) {
     setIsClicked(prevState => [0, 0, 1 - prevState[2], 0]);
     fetch(`${backendUrl}/user-action/`, {
       method: 'POST', headers: {
+        "authorization": localStorage.getItem("token"),
         'Content-Type': 'application/json'
       }, body: JSON.stringify({
         "uid": x.uid,
@@ -255,6 +261,7 @@ function Render(x) {
     setIsClicked(prevState => [prevState[0], prevState[1], prevState[2], 1 - prevState[3]]);
     fetch(`${backendUrl}/user-action/`, {
       method: 'POST', headers: {
+        "authorization": localStorage.getItem("token"),
         'Content-Type': 'application/json'
       }, body: JSON.stringify({
         "link": x.link,

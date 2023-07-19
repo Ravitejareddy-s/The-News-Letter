@@ -17,10 +17,21 @@ const { Configuration, OpenAIApi } = require("openai");
 const axios = require('axios');
 const cheerio = require('cheerio');
 const TableName=process.env.table_name
+var jwt = require('jsonwebtoken');
 const mail = require("./mail.js");
+const JWT_SECRET = process.env.jwt_token
+const { auth } = require("./middleware");
 const mails=['ravitejareddy.seemala@gmail.com','100xgrowthteam@gmail.com']
 
-
+const USERS = [
+  {
+    id: '1',
+    name: "jacob",
+    email: "100xgrowthteam@gmail.com",
+    password: "hashed_password_1",
+  }
+  // Additional user objects...
+];
 // function that scrapes the data and summerrises
 const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,
@@ -200,6 +211,7 @@ const getdata = async (x, y) => {
 app.post("/login", (req, res) => {
   const {email,password} = req.body;
   const user = USERS.find((x) => x.email === email);
+  console.log(email,password)
 
   if (!user) {
     return res.status(403).json({ msg: "User not found" });
@@ -224,10 +236,10 @@ app.get('/', (req, res) => {
 
   // updateData('2023', 23223233232300, {'not present':"insert it"});
   
-  res.send('Health check')
+  res.send('authenticated')
 })
 
-app.post('/update_data', (req, res) => {
+app.post('/update_data', auth,(req, res) => {
 
   updateData(req.body.date, req.body.uid, req.body.update);
   
@@ -235,7 +247,7 @@ app.post('/update_data', (req, res) => {
 })
 
 
-app.post('/mail', (req, res) => {
+app.post('/mail', auth,(req, res) => {
   const list=req.body
   for(let j=0;j < (list.length/3);j++){
     let x=[]
@@ -252,7 +264,7 @@ app.post('/mail', (req, res) => {
   res.send('email sent')
 })
 
-app.post('/generate', (req, res) => {
+app.post('/generate', auth,(req, res) => {
   const { title, link,p_title,p_desc,scraped_data } = req.body;
 // const resp = async (openai, title, url,p_title,p_desc,scraped_data) => {
 
@@ -268,7 +280,7 @@ app.post('/generate', (req, res) => {
 
 
 
-app.post('/news', (req, res) => {
+app.post('/news', auth,(req, res) => {
     console.log("calling dynamodb")
     const date=req.body.date
     const key=Object.keys(req.body)[1]
@@ -293,7 +305,7 @@ app.post('/D_news', (req, res) => {
     // res.send('Hello World!')
   })
 
-app.post('/user-action', (req, res) => {
+app.post('/user-action', auth,(req, res) => {
 
   const link=req.body.link
   const uid=req.body.uid
