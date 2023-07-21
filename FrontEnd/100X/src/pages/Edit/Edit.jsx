@@ -71,10 +71,20 @@ const Edit = () => {
   // Use the postId and userId values in your component
 
   async function save() {
-    const payload={'date':date,'uid':uid,'update':{}}
+    const payload={'date':date,'uid':uid,'update':{'site_name':"ad hoc"}}
     // console.log(data.scraped_time,data.uid,"dropdoen: ",selectedOption,"  ||  "+ 'image: '+ image,"  ||  "+ 'title: '+ gpttitle,"  ||  "+ 'desc: '+ gptdesc)
     if(selectedOption){
       console.log("entering if stmt")
+      if(!data.feedback){
+        payload.update.feedback='l'
+
+      }
+      if(!data.title){
+        payload.update.title=gpttitle
+
+      }
+
+      
       if(selectedOption !== data.category){
         payload.update.category=selectedOption
       }
@@ -95,12 +105,13 @@ const Edit = () => {
         console.log(payload.update)
 // console.log(payload)
         await fetch(`${backendUrl}/update_data`, {
-          "authorization": localStorage.getItem("token"),
           method: 'POST', headers: {
+          "authorization": localStorage.getItem("token"),
+
             'Content-Type': 'application/json'
           }, body: JSON.stringify(payload)
         });
-        // window.close()
+        window.close()
       }else{
         alert("no chainges made")
       }
@@ -144,100 +155,106 @@ const Edit = () => {
 
 
   }
-  return (      
+  return (
 
-  <div className='edit_body'>
-    {/* <div>{data.title}</div> */}
-    <ThemeProvider theme={darkTheme}>
-<div className='first_inputs'>
-      <material.FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
-      <material.InputLabel id="dropdown-label">Category</material.InputLabel>
-      <material.Select
-        labelId="dropdown-label"
-        value={selectedOption}
-        onChange={(e) => setSelectedOption(e.target.value)} 
-      >
-        <material.MenuItem value="AI">AI</material.MenuItem>
-        <material.MenuItem value="Business models">Business models</material.MenuItem>
-        <material.MenuItem value="Digital marketing">Digital marketing</material.MenuItem>
-        <material.MenuItem value="Business models">Business models</material.MenuItem>
-        {/* Add more menu items as needed */}
-      </material.Select>
-    </material.FormControl>
+    <div className='edit_body'>
 
-      <Input onChange={(e)=>setlink(e.target.value)}
-
-      startAdornment={
-        <InputAdornment position="start">
-          <Icons.Link />
-        </InputAdornment>
-      }
-      value={link}
-      endAdornment={
-        <InputAdornment position="end">
-          <Button onClick={showAlert} className="custom-button">generate</Button>
-        </InputAdornment>
-      }
-      defaultValue={link}
-
-
-    />
-
+<div class="three">
+  <h1>Add / Edit Article</h1>
 </div>
-    <div className='first_inputs'>
-    {/* <CssBaseline /> */}
+
+      {/* <div>{data.title}</div> */}
+      <ThemeProvider theme={darkTheme}>
+        <div className='first_inputs'>
+          <material.FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+            <material.InputLabel id="dropdown-label">Category</material.InputLabel>
+            <material.Select
+              labelId="dropdown-label"
+              value={selectedOption}
+              onChange={(e) => setSelectedOption(e.target.value)}
+            >
+              <material.MenuItem value="AI">AI</material.MenuItem>
+              <material.MenuItem value="Business models">Business models</material.MenuItem>
+              <material.MenuItem value="Digital marketing">Digital marketing</material.MenuItem>
+              <material.MenuItem value="Business models">Business models</material.MenuItem>
+              {/* Add more menu items as needed */}
+            </material.Select>
+          </material.FormControl>
+
+          <Input className='generate'  onChange={(e) => setlink(e.target.value)}
+
+            startAdornment={
+              <InputAdornment position="start">
+                <Icons.Link />
+              </InputAdornment>
+            }
+            value={link}
+            
+            defaultValue={link}
+
+            sx={{ width: '100%' }}
+          />
+
+              <InputAdornment position="end">
+                <Button onClick={showAlert} className="custom-button">generate</Button>
+              </InputAdornment>
 
 
-{/* <div className='input_image'> */}
-<Input onChange={(e)=>setimg(e.target.value)}
-      startAdornment={
-        <InputAdornment position="start">
-          <Icons.Image />
-        </InputAdornment>
-      }
-      value={image}
-    />
-    <img src={image}  /> 
-<div className='prompts'>
-Prompts
-<div className='chatgpt'>
+        </div>
+        <div className='first_inputs'>
+          {/* <CssBaseline /> */}
 
-<material.TextField
-          id="prompt title"
-          label="Title"
-          multiline
-          rows={4}
-          defaultValue='make the title more attractive and engaging'
-          variant="filled"
+
+          {/* <div className='input_image'> */}
+          <Input onChange={(e) => setimg(e.target.value)}
+            startAdornment={
+              <InputAdornment position="start">
+                <Icons.Image />
+              </InputAdornment>
+            }
+            value={image}
+          />
+          <img src={image} />
+          <div className='prompts'>
+            Prompts
+            <div className='chatgpt'>
+
+              <material.TextField
+                id="prompt title"
+                label="Title"
+                multiline
+                rows={4}
+                defaultValue='make the title more attractive and engaging'
+                variant="filled"
+              />
+
+
+              <material.TextField
+                id="prompt desc"
+                label="Summary"
+                multiline
+                rows={4}
+                defaultValue="summarize news piece with a touch of humor and creativity"
+                variant="filled"
+              />
+            </div>
+          </div>
+        </div>
+        <Input id="gpt title" value={gpttitle} onChange={(e) => setgpttitle(e.target.value)} placeholder="Title" multiline variant="soft" />
+        <Input id="gpt desc" value={gptdesc} onChange={(e) => setgptdesc(e.target.value)} placeholder="Summary" multiline variant="soft" />
+        <Button onClick={save} style={{ textTransform: "none", width: '100px' }} variant="contained">Save</Button>
+
+
+        <Input id='blog title' value={blogtitle} onChange={(e) => setblogtitle(e.target.value)}
+          placeholder='Please paste the article Title here'
+
         />
+        <Input id='blog content' placeholder='Please paste the article Content here' />
 
+        {/* </Paper> */}
+      </ThemeProvider>
 
-<material.TextField
-          id="prompt desc"
-          label="Summary"
-          multiline
-          rows={4}
-          defaultValue="summarize news piece with a touch of humor and creativity"
-          variant="filled"
-        />
-</div>
-</div>
-</div>
-<Input id="gpt title" value={gpttitle} onChange={(e)=>setgpttitle(e.target.value)} placeholder="Title" multiline variant="soft" />
-<Input id="gpt desc" value={gptdesc} onChange={(e)=>setgptdesc(e.target.value)} placeholder="Summary" multiline variant="soft" />
-<Button onClick={save} style={{ textTransform: "none",width:'100px' }} variant="contained">Save</Button>
-
-
-<Input id='blog title'       value={blogtitle} onChange={(e)=>setblogtitle(e.target.value)}
- placeholder='Please paste the article Title here'
-
-    />
-<Input id='blog content' placeholder='Please paste the article Content here' />
-
-{/* </Paper> */}
-</ThemeProvider>
-
-  </div>
+    </div>
   
   );
 };

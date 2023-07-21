@@ -1,4 +1,5 @@
-require('dotenv').config({ path: '../.env' });
+require('dotenv').config({ path: '.env' });
+const serverless=require("serverless-http")
 const express = require('express')
 const app = express()
 const bodyParser = require('body-parser');
@@ -21,7 +22,7 @@ var jwt = require('jsonwebtoken');
 const mail = require("./mail.js");
 const JWT_SECRET = process.env.jwt_token
 const { auth } = require("./middleware");
-const mails=['ravitejareddy.seemala@gmail.com','100xgrowthteam@gmail.com']
+const mails=['ravitejareddy.seemala@gmail.com','shaikfayaz17@saveetha.com']
 
 const USERS = [
   {
@@ -386,3 +387,5 @@ app.post('/flag', (req, res) => {
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
+
+// module.exports.handler=serverless(app);

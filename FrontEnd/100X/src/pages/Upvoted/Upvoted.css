@@ -48,6 +48,11 @@ body{
 
 }
 
+.upvote_boxes.stared {
+    border-color: rgb(90, 90, 4);
+  }
+  
+
 
 
 .header{

@@ -10,6 +10,7 @@
     gap: 25px;
     /* width: 100%; */
     margin: 0 auto;
+    max-width: 1500px;
 
 
 }
@@ -27,6 +28,15 @@
     /* justify-content: center; */
     align-items: center;
     gap: 40px;
+    width: 100%;
+}
+
+.three h1{
+    /* font: 1.2em "Fira Sans", serif; */
+    font: small-caps bold 24px/1 sans-serif;
+}
+.first_inputs Input{
+    width: 300px;
 }
 
 .chatgpt{

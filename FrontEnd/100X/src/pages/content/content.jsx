@@ -4,6 +4,7 @@ import './content.css'
 import noimg from './noimg.jpg'
 import Navbar from "../Navbar/Navbar";
 import {backendUrl} from "../constants.js";
+import { TiDocumentAdd } from 'react-icons/ti';
 
 
 
@@ -143,7 +144,8 @@ const Content = () => {
           <option value="Marketing strategies">Marketing strategies</option>
         </select>
 
-        <button onClick={new_post}>+ new</button>
+<button className="button-17" role="button" onClick={new_post}>Add‎ ‎ ‎ <TiDocumentAdd style={{ fontSize: '1.2em' ,backgroundColor: 'transparent'}} /></button>
+
       </div>
 
 

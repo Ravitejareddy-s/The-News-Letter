@@ -1,4 +1,4 @@
-require('dotenv').config({ path: '../.env' });
+require('dotenv').config({ path: '.env' });
 const { Configuration, OpenAIApi } = require("openai");
 const axios = require('axios');
 const cheerio = require('cheerio');

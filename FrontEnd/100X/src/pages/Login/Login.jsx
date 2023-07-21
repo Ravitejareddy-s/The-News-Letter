@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import './Login.css'
 import Navbar from "../Navbar/Navbar";
+import logo from "../../../static images/Logo with fullname.png"
 import {backendUrl} from "../constants.js";
 // import noimg from './noimg.jpg'
 import { TiEye } from 'react-icons/ti'; // Import the eye icon from react-icons
@@ -58,7 +59,9 @@ const Login = () => {
         
         // You may also show a success message to the user if required
         setErrorMsg('Login successful');
-        window.open('/content');
+        // window.open('/content');
+        window.location.href = '/content';
+        
 
       } catch (error) {
         setErrorMsg('An error occurred during login');
@@ -81,6 +84,7 @@ const Login = () => {
           {errorMsg}
         </span>
         <form name="form1" className="box" >
+          <img src={logo} />
           <h4>
             Admin<span>Panel</span>
           </h4>

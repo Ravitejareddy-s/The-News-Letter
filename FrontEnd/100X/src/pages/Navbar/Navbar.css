@@ -45,6 +45,7 @@
     padding: 10px;
     margin-top: 0;
     display: none;
+    text-align: right;
   }
   
   .navbar-menu li {

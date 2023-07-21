@@ -15,7 +15,7 @@ function App() {
         <Route path="/Edit/:date/:uid" element={<Edit />} />
         <Route path="/Upvoted" element={<Upvoted />} />
         <Route path="/content" element={<Content />} />
-        <Route path="/" element={<Content />} />
+        <Route path="/" element={<Login />} />
         <Route path="/bookmarked" element={<Bookmarked />} />
         <Route path="/login" element={<Login />} />
       </Routes>

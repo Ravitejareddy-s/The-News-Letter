@@ -1,6 +1,6 @@
 const nodemailer = require('nodemailer');
 const mjml2html  = require('mjml');
-require('dotenv').config({ path: '../.env' });
+require('dotenv').config({ path: '.env' });
 
 
 function mail(x,y){
@@ -21,7 +21,7 @@ function mail(x,y){
     </mj-section>
     <mj-section background-color="#3700E3" padding="48px">
       <mj-column padding="0">
-        <mj-image align="left" padding="0px" src="https://static-images-frontend.s3.ap-south-1.amazonaws.com/Logo+with+fullname.png" width="160px"></mj-image>
+        <mj-image align="left" padding="0px" src="http://test-deployment2.s3-website.ap-south-1.amazonaws.com/assets/Logo%20with%20fullname-32b55e42.png" width="160px"></mj-image>
         <mj-spacer height="12px"></mj-spacer>
         <mj-text color="#fff" font-size="48px" padding="10px">
           <strong>News and updates</strong>

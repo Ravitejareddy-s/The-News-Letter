@@ -145,7 +145,7 @@ const Upvoted = () => {
 
   return (
     <div>
-      <Navbar title="Upvoted Posts"/>
+      <Navbar title="Upvoted Content"/>
       <div className="filters">
         <input
           type="date"
@@ -272,7 +272,7 @@ function Render(x) {
     });
   };
 
-  return <li className='upvote_boxes'>
+  return <li className={`upvote_boxes ${isClicked[2] ? 'stared' : ''}`}>
     <div className="header">
       <div>
         <input type="checkbox" onChange={()=>setclicked(!isclicked)} id="myCheckbox" name="myCheckbox"/>
