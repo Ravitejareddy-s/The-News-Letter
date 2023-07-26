@@ -1,0 +1,56 @@
+.edit_body{
+    /* width: 1000px; */
+    display: flex;
+    flex-direction: column;
+    font-family: "Popins", sans-serif;
+    /* padding: 20%; */
+    /* background: red; */
+    /* justify-content: center; */
+    /* align-items: center; */
+    gap: 25px;
+    /* width: 100%; */
+    margin: 0 auto;
+    max-width: 1500px;
+
+
+}
+
+.first_inputs img {
+    max-width: 200px;
+    max-height: 200px;
+
+
+}
+  
+.first_inputs{
+    display: flex;
+    flex-direction: row;
+    /* justify-content: center; */
+    align-items: center;
+    gap: 40px;
+    width: 100%;
+}
+
+.three h1{
+    /* font: 1.2em "Fira Sans", serif; */
+    font: small-caps bold 24px/1 sans-serif;
+}
+.first_inputs Input{
+    width: 300px;
+}
+
+.chatgpt{
+    display: flex;
+    gap: 15px;
+}
+
+.chatgpt *{
+    width: 300px;
+}
+
+.prompts{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start;
+}

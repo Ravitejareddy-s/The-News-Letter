@@ -60,7 +60,7 @@ const Login = () => {
         // You may also show a success message to the user if required
         setErrorMsg('Login successful');
         // window.open('/content');
-        window.location.href = '/content';
+        window.location = '/content';
         
 
       } catch (error) {
